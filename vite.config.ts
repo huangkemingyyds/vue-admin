@@ -1,10 +1,24 @@
 import path from "path";
-import { defineConfig } from "vite";
+import { defineConfig, ProxyOptions } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import { svgBuilder } from "./src/icons/loader";
 
 // https://vitejs.dev/config/
+const targetUrl = 'https://szhgg.ifuhua.com.cn/api';
+
+/**
+ * 获取代理信息
+ * @param path 指定代理地址，默认测试环境
+ */
+function getProxyInfo(path = '') {
+  return {
+    target: path || targetUrl,
+    changeOrigin: true,
+    rewrite: path => path.replace(/^\/api/,'')
+  } as ProxyOptions
+}
+
 export default defineConfig({
   plugins: [vue(), vueJsx(), svgBuilder("./src/icons/svg/")],
   base: "./",
@@ -13,27 +27,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src")
     }
   },
-  // server: {
-  //   port: 1088,
-  //   host: "0.0.0.0",
-  //   // proxy: {
-  //   //   "/free": {
-  //   //     target: "https://www.tianqiapi.com",
-  //   //     changeOrigin: true,
-  //   //     rewrite: path => path.replace(/^\//, "")
-  //   //   }
-  //   // }
-  // },
   server: {
     port: 1088,
     host: "0.0.0.0",
+    cors: true,
     proxy: {
-      "/api": {
-        target: "http://172.16.10.30:8080",
-        changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/,'')
-      }
-    }
+      '/api': getProxyInfo()
+    },
   },
 
   build: {
@@ -64,18 +64,3 @@ export default defineConfig({
     }
   },
 })
-
-module.exports = {
-  devServer: {
-    proxy: {
-      '/ram': {
-        target: 'http://172.16.10.30:8080',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/ram': '/ram'
-        }
-      }
-    }
-  }
-}
-

@@ -18,7 +18,7 @@ export interface UserInfo {
    */
   type: number | ""
   /** 用户账户 */
-  account?: string | number
+  username?: string | number
   /** 用户密码 */
   password?: string
   /** 用户头像 */
@@ -28,6 +28,6 @@ export interface UserInfo {
 /** 登录接口传参 */
 export interface LoginParams {
   type: string | "RAM-MAIN"
-  account: string
+  username: string
   password: string
 }

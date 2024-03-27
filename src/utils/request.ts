@@ -113,7 +113,8 @@ function getResultInfo(result: { statusCode: number, data: any }, responseType?:
     case 200:
       info.code = checkType(result.data.code) === "number" ? result.data.code : 1;
       info.msg = result.data.message || "ok";
-      info.data = result.data;
+      // 原 info.data = result.data
+      info.data = result.data.data;
       // do some ... 这里可以做一些类型响应数据结构组装处理，有些时候后端返回的接口不一样
       // if (responseType === "blob") {}
       break;
@@ -161,8 +162,9 @@ export default function request<T = any>(
       data: data || {},
       overtime: config.requestOvertime,
       success(res, xhr) {
-        // console.log("请求成功", res);
+        console.log("请求成功", res,xhr);
         const info = getResultInfo({ statusCode: xhr.status, data: res });
+        console.log("getResultInfo", info);
         resolve(info);
       },
       fail(err) {

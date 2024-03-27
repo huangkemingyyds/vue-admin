@@ -7,13 +7,16 @@
       <div class="form-box">
         <div class="login-form">
           <div class="login-title">平台登录</div>
-          <input class="the-input mgb_20" type="text" v-model="formData.account" placeholder="请输入账号">
+          <input class="the-input mgb_20" type="text" v-model="formData.username" placeholder="请输入账号">
           <input class="the-input mgb_20" type="password" v-model="formData.password" placeholder="请输入密码">
           <button class="the-btn blue mgb_20" v-ripple style="width: 100%" @click="onLogin(false)" :disabled="loading">{{ loading ? '登录中...' : '登录' }}</button>
           <label class="check-box fvertical mgb_20" for="check-input" @change="remember =! remember">
             <input type="checkbox" id="check-input" :checked="remember" />
             记住账号/密码
           </label>
+          <div class="tips fvertical" v-for="(item, index) in tipList" :key="index">
+            <button class="the-btn mini blue" v-ripple :disabled="loading" @click="setLoginInfo(item)">一键登录</button>
+          </div>
         </div>
       </div>
       <div class="bottom-text">{{ copyRight }}</div>
@@ -24,7 +27,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import store from "@/store";
-// import { login } from "@/api/common";
+import { getUserInfo } from "@/api/common";
 import { login } from "@/api/token";
 import { openNextPage } from "@/router/permission";
 import { modifyData } from "@/utils";
@@ -41,12 +44,22 @@ const copyRight = "Copyright © Travis-hjs.github.io All Rights Reserved 请使�
 /** 表单数据 */
 const formData = reactive({
   type: "RAM-MAIN",
-  account: "",
+  username: "",
   password: ""
 })
 
 const loading = ref(false);
 
+/**
+ * 一键登录
+ * @param username 账号
+ */
+function setLoginInfo(username: string) {
+  formData.username = "13680740185";
+  formData.password = "giveme2billion";
+  formData.type = "RAM-MAIN";
+  onLogin(true);
+}
 
 /** 
  * 点击登录 
@@ -55,19 +68,30 @@ const loading = ref(false);
 function onLogin(adopt: boolean) {
   async function start() {
     loading.value = true;
-    const res = await login(formData)
-    loading.value = false;
-    if (res.code === 1) {
-      saveLoginInfo();
-      openNextPage();
+    console.log(formData);
+    const tokenRes = await login(formData)
+    console.log(1,tokenRes);
+    if (tokenRes.code === 1) {
+      //本地保存我们获取的token，便于之后的获取信息
+      console.log(tokenRes.data.value);
+      window.localStorage.setItem("token", tokenRes.data.value);
+      const userRes = await getUserInfo(tokenRes.data.value)
+      loading.value = false;
+      if (userRes.code === 1) {
+        // 获取到用户信息保存
+        saveLoginInfo();
+        openNextPage();
+      }else {
+        return message.error(userRes.msg);
+      }
     } else {
-      message.error(res.msg);
+      message.error(tokenRes.msg);
     }
   }
   if (adopt) {
     return start();
   }
-  if (!formData.account) {
+  if (!formData.username) {
     return message.error("请输入账号");
   }
   if (!formData.password) {

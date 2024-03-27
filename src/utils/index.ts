@@ -1,3 +1,5 @@
+import {LoginParams} from "@/types/user";
+
 /**
  * 检测类型
  * @param target 检测的目标
@@ -187,9 +189,10 @@ export function isExternal(path: string) {
  * console.log(val); // "name=hjs&id=123"
  * ```
  */
-export function jsonToFormData(params: { [key: string]: number | string | boolean }) {
+export function jsonToFormData(params: LoginParams) {
   let result = "";
   for (const key in params) {
+    // @ts-ignore
     result += `&${key}=${params[key]}`;
   }
   return result.slice(1);
