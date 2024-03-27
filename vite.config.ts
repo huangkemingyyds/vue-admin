@@ -13,17 +13,29 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src")
     }
   },
+  // server: {
+  //   port: 1088,
+  //   host: "0.0.0.0",
+  //   // proxy: {
+  //   //   "/free": {
+  //   //     target: "https://www.tianqiapi.com",
+  //   //     changeOrigin: true,
+  //   //     rewrite: path => path.replace(/^\//, "")
+  //   //   }
+  //   // }
+  // },
   server: {
     port: 1088,
     host: "0.0.0.0",
-    // proxy: {
-    //   "/free": {
-    //     target: "https://www.tianqiapi.com",
-    //     changeOrigin: true,
-    //     rewrite: path => path.replace(/^\//, "")
-    //   }
-    // }
+    proxy: {
+      "/api": {
+        target: "http://172.16.10.30:8080",
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/,'')
+      }
+    }
   },
+
   build: {
     rollupOptions: {
       output: {
@@ -52,3 +64,18 @@ export default defineConfig({
     }
   },
 })
+
+module.exports = {
+  devServer: {
+    proxy: {
+      '/ram': {
+        target: 'http://172.16.10.30:8080',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/ram': '/ram'
+        }
+      }
+    }
+  }
+}
+

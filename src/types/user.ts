@@ -27,6 +27,7 @@ export interface UserInfo {
 
 /** 登录接口传参 */
 export interface LoginParams {
+  type: string | "RAM-MAIN"
   account: string
   password: string
 }

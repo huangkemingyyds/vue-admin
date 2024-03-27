@@ -14,11 +14,6 @@
             <input type="checkbox" id="check-input" :checked="remember" />
             记住账号/密码
           </label>
-          <div class="tips fvertical" v-for="(item, index) in tipList" :key="index">
-            <button class="the-btn mini green" v-ripple v-copy="item" :disabled="loading">点击复制</button>
-            <div class="tips_text f1">账号: {{ item }}; 密码: 随便填</div>
-            <button class="the-btn mini blue" v-ripple :disabled="loading" @click="setLoginInfo(item)">一键登录</button>
-          </div>
         </div>
       </div>
       <div class="bottom-text">{{ copyRight }}</div>
@@ -29,7 +24,8 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import store from "@/store";
-import { login } from "@/api/common";
+// import { login } from "@/api/common";
+import { login } from "@/api/token";
 import { openNextPage } from "@/router/permission";
 import { modifyData } from "@/utils";
 import { message } from "@/utils/message";
@@ -44,21 +40,13 @@ const copyRight = "Copyright © Travis-hjs.github.io All Rights Reserved 请使�
 
 /** 表单数据 */
 const formData = reactive({
+  type: "RAM-MAIN",
   account: "",
   password: ""
 })
 
 const loading = ref(false);
 
-/**
- * 一键登录
- * @param account 账号
- */
-function setLoginInfo(account: string) {
-  formData.account = account;
-  formData.password = Math.random().toString(36).substr(2);
-  onLogin(true);
-}
 
 /** 
  * 点击登录 

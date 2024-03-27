@@ -5,8 +5,9 @@ const config = (function () {
   const env = process.env.NODE_ENV === "development" ? "dev" : "prod";
 
   const url = {
-    dev: "https://www.tianqiapi.com", // `http://${location.host}`,
-    prod: "https://www.tianqiapi.com"
+    // dev: "https://www.tianqiapi.com", // `http://${location.host}`,
+    dev: "http://172.16.10.30:8080",
+    prod: "https://szhgg.ifuhua.com.cn"
   }
 
   return {
