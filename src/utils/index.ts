@@ -1,4 +1,4 @@
-import {LoginParams} from "@/types/user";
+import {LoginParams} from "@/types/token";
 
 /**
  * 检测类型

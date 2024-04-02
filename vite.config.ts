@@ -4,8 +4,9 @@ import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import { svgBuilder } from "./src/icons/loader";
 
-// https://vitejs.dev/config/
-const targetUrl = 'https://szhgg.ifuhua.com.cn/api';
+// https://vitejs.dev/config/ 
+// const targetUrl = 'https://szhgg.ifuhua.com.cn/api';
+const targetUrl = 'http://localhost:8080';
 
 /**
  * 获取代理信息

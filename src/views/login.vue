@@ -2,7 +2,7 @@
   <div class="login-page">
     <div class="content">
       <div class="title">
-        <span>{{ info.name }}</span>
+        <span>{{ projectInfo.name }}</span>
       </div>
       <div class="form-box">
         <div class="login-form">
@@ -37,7 +37,7 @@ const cacheName = "login-info";
 
 const tipList = ["admin", "normal"];
 
-const info = store.projectInfo;
+const projectInfo = store.projectInfo;
 
 const copyRight = "Copyright © Travis-hjs.github.io All Rights Reserved 请使用 Google Chrome、Microsoft Edge、360浏览器、非 IE 等浏览器"
 
@@ -72,13 +72,14 @@ function onLogin(adopt: boolean) {
     const tokenRes = await login(formData)
     console.log(1,tokenRes);
     if (tokenRes.code === 1) {
-      //本地保存我们获取的token，便于之后的获取信息
-      console.log(tokenRes.data.value);
-      window.localStorage.setItem("token", tokenRes.data.value);
-      const userRes = await getUserInfo(tokenRes.data.value)
+      // 保存 token 信息
+      store.tokenInfo.update(tokenRes.data);
+      const userRes = await getUserInfo()
       loading.value = false;
       if (userRes.code === 1) {
         // 获取到用户信息保存
+        // 保存登录信息
+        store.user.update(userRes.data);
         saveLoginInfo();
         openNextPage();
       }else {

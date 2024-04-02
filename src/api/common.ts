@@ -1,6 +1,5 @@
 import request from "../utils/request";
-import store from "../store";
-import {LoginParams, UserInfo} from "../types/user";
+import {UserInfo} from "../types/user";
 
 /**
  * 上传图片
@@ -54,11 +53,6 @@ export function getWeather(city: string) {
 /**
  * 获取用户信息
  */
-export function getUserInfo(token: string) {
-  return request<UserInfo>('GET', '/user-center-server/extendUser/getShiroUser', {}, {
-    headers: {
-      // token格式 Bearer 82561690-1f4a-49ab-aa1d-358c884bc60a
-      authorization: 'Bearer' + token
-    }
-  })
+export function getUserInfo() {
+  return request<UserInfo>('GET', '/user-center-server/extendUser/getShiroUser')
 }

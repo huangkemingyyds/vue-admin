@@ -7,13 +7,33 @@ const cacheName = "ModuleUser";
 function createUserInfo(): Readonly<UserInfo> {
   return {
     id: "",
-    name: "",
-    type: "",
-    token: "",
+    authentication: 0,
+    authenticationOrg: 0,
     avatar: "",
+    codes: [],
+    deptList: [],
+    deptNameList: [],
+    lastLoginDep: "",
+    mainDep: "",
+    swsdIdList: [],
+    departmentId: "",
+    departmentName: "",
+    eid: "",
+    email: "",
+    enterpriseName: "",
+    memberLevel: 1,
+    memberLevelStr: "",
+    orgEid: "",
+    orgName: "",
+    pathSourceVos: [],
+    phone: "",
+    roles: [],
+    roleMap: {},
+    userId: 0,
     username: "",
-    password: ""
-  }
+    staffId: "",
+    staffName: "",
+  };
 }
 
 /**
@@ -32,7 +52,7 @@ export default class ModuleUser {
     const value = sessionStorage.getItem(cacheName);
     try {
       if (value) {
-        const info = JSON.parse(value)
+        const info = JSON.parse(value);
         modifyData(this.info, info);
       }
     } catch (error) {
@@ -54,5 +74,4 @@ export default class ModuleUser {
     modifyData(this.info, createUserInfo());
     sessionStorage.removeItem(cacheName);
   }
-
 }

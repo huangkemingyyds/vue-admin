@@ -32,7 +32,7 @@ let router: Router;
  */
 function handleAuth(routes: Array<RouteItem>) {
   const list: Array<RouteItem> = [];
-  const userType = store.user.info.type as number;
+  const userType = store.user.info.authentication as number;
   for (let i = 0; i < routes.length; i++) {
     const item = routes[i];
     const auth = item.meta ? item.meta.auth : undefined;
@@ -59,7 +59,7 @@ export function initPermission(vueRouter: Router, baseRoutes: Array<RouteItem>, 
   router.beforeEach(function (to, from, next) {
     NProgress.start();
 
-    if (store.user.info.token) {
+    if (store.tokenInfo.info.value) {
       if (store.layout.addRouters.length > 0) {
         next();
       } else {

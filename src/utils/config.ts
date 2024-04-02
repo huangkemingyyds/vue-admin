@@ -7,7 +7,7 @@ const config = (function () {
   const url = {
     // dev: "https://www.tianqiapi.com", // `http://${location.host}`,
     // dev: "http://localhost:8080/api",
-    dev: "/api/",
+    dev: "/api",
     // dev: "https://szhgg.ifuhua.com.cn",
     prod: "https://szhgg.ifuhua.com.cn"
   }

@@ -1,7 +1,6 @@
 import request from "../utils/request";
-import { LoginParams} from "../types/user";
 import {jsonToFormData} from "@/utils";
-import {TokenInfo} from "@/types/token";
+import {LoginParams,TokenInfo} from "@/types/token";
 
 
 

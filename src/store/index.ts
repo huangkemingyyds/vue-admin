@@ -1,6 +1,7 @@
 import ModuleUser from "./User";
 import imgLogo from "../assets/logo.png";
 import ModuleLayout from "./Layout";
+import ModuleToken from "./Token";
 
 class ModuleStore {
   constructor() {
@@ -20,6 +21,9 @@ class ModuleStore {
 
   /** 用户状态模块 */
   readonly user = new ModuleUser();
+
+  /** token状态模块 */
+  readonly tokenInfo = new ModuleToken();
 
 }
 
